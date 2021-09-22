@@ -24,13 +24,11 @@ router.post("/workouts", async (req, res) => {
 
 router.put("/workouts/:id", async (req, res) => {
   try {
-    const id = req.params.id;
-    const body = req.body;
     const updatedWorkout = await db.Workout.findOneAndUpdate(
-      { _id: id },
+      { _id: req.params.id },
       {
         $push: {
-          exercises: body,
+          exercises: req.body,
         },
       }
       // {

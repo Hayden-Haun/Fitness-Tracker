@@ -4,12 +4,22 @@ const db = require("../models");
 
 router.get("/workouts", async (req, res) => {
   try {
-    const newestWorkout = await db.Workout.findOne({}).sort({ day: -1 });
+    const newestWorkout = await db.Workout.find({}).sort({ day: -1 });
     console.log(newestWorkout.exercises);
-    res.json(newestWorkout);
+    return res.json(newestWorkout);
   } catch (error) {
-    res.json(error);
+    console.log(error);
   }
 });
+
+router.post("/workouts"),
+  async (req, res) => {
+    try {
+      const newWorkout = Workout.create({});
+      return res.json(newWorkout);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 module.exports = router;

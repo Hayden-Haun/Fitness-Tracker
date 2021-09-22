@@ -13,6 +13,7 @@ router.get("/workouts", async (req, res) => {
   }
 });
 
+//Create a new workout
 router.post("/workouts", async (req, res) => {
   try {
     const newWorkout = await db.Workout.create(req.body);
@@ -22,6 +23,7 @@ router.post("/workouts", async (req, res) => {
   }
 });
 
+//Add an exercise to the most recent workout
 router.put("/workouts/:id", async (req, res) => {
   try {
     const updatedWorkout = await db.Workout.findOneAndUpdate(
@@ -31,11 +33,24 @@ router.put("/workouts/:id", async (req, res) => {
           exercises: req.body,
         },
       }
-      // {
-      //   new: true,
-      // }
     );
     res.json(updatedWorkout);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/workouts/range", async (req, res) => {
+  try {
+    const aggregateData = await db.Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: { $sum: "$duration" },
+          totalWeight: { $sum: "$weight" },
+        },
+      },
+    ]);
+    console.log(aggregateData);
   } catch (error) {
     console.log(error);
   }

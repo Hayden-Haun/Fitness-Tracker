@@ -5,8 +5,8 @@ const db = require("../models");
 //Create GET route to retrieve most recent workout
 router.get("/workouts", async (req, res) => {
   try {
-    const newestWorkout = await db.Workout.find({}).sort({ day: -1 });
-    console.log(newestWorkout.exercises);
+    const newestWorkout = await db.Workout.find({}).sort({ day: 1 });
+    console.log(newestWorkout);
     return res.json(newestWorkout);
   } catch (error) {
     console.log(error);
@@ -15,7 +15,7 @@ router.get("/workouts", async (req, res) => {
 
 router.post("/workouts", async (req, res) => {
   try {
-    const newWorkout = await db.Workout.create();
+    const newWorkout = await db.Workout.create(req.body);
     res.json(newWorkout);
   } catch (error) {
     console.log(error);
@@ -25,17 +25,17 @@ router.post("/workouts", async (req, res) => {
 router.put("/workouts/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const body = req.params.body;
+    const body = req.body;
     const updatedWorkout = await db.Workout.findOneAndUpdate(
       { _id: id },
       {
         $push: {
           exercises: body,
         },
-      },
-      {
-        new: true,
       }
+      // {
+      //   new: true,
+      // }
     );
     res.json(updatedWorkout);
   } catch (error) {

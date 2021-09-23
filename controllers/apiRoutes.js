@@ -5,7 +5,31 @@ const db = require("../models");
 //Create GET route to retrieve most recent workout
 router.get("/workouts", async (req, res) => {
   try {
+    // const aggregateData = await db.Workout.aggregate([
+    //   {
+    //     $addFields: {
+    //       totalDuration: { $sum: "$exercises.duration" },
+    //       totalWeight: { $sum: "$exercises.weight" },
+    //       totalSets: { $sum: "$exercises.sets" },
+    //       totalReps: { $sum: "$exercisesreps" },
+    //     },
+    //   },
+    // ]);
+
+    await db.Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: { $sum: "$exercises.duration" },
+          totalWeight: { $sum: "$exercises.weight" },
+          totalSets: { $sum: "$exercises.sets" },
+          totalReps: { $sum: "$exercises.reps" },
+          totalDistance: { $sum: "$exercises.distance" },
+        },
+      },
+    ]);
+
     const newestWorkout = await db.Workout.find({}).sort({ day: 1 });
+
     console.log(newestWorkout);
     return res.json(newestWorkout);
   } catch (error) {
@@ -48,11 +72,14 @@ router.get("/workouts/range", async (req, res) => {
           totalDuration: { $sum: "$exercises.duration" },
           totalWeight: { $sum: "$exercises.weight" },
           totalSets: { $sum: "$exercises.sets" },
-          totalReps: { $sum: "$exercisesreps" },
+          totalReps: { $sum: "$exercises.reps" },
+          totalDistance: { $sum: "$exercises.distance" },
         },
       },
     ]);
-    console.log(aggregateData);
+
+    // const aggregateData = await db.Workout.find({});
+    // console.log(aggregateData);
     res.json(aggregateData);
   } catch (error) {
     console.log(error);

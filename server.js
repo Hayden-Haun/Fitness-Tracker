@@ -5,7 +5,6 @@ const routes = require("./controllers/");
 
 const PORT = process.env.PORT || 3001;
 
-const Workout = require("./models/Workout.js");
 const app = express();
 
 app.use(logger("dev"));

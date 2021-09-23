@@ -1,6 +1,6 @@
 # Fitness-Tracker
 
-LIVE URL:
+LIVE URL: https://fitness-tracker-hh.herokuapp.com/
 
 REPOSITORY: https://github.com/Hayden-Haun/Fitness-Tracker
 
